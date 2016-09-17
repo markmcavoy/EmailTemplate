@@ -1,0 +1,638 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EmailTemplateProcessor</name>
+    </assembly>
+    <members>
+        <member name="T:EmailTemplateProcessor.Entities.UserDataDictionary">
+            <summary>
+            Class used to hold the information we need to output an IDictionary
+            object.
+            
+            We used this when we are merging the data into the output text.
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.Entities.UserDataItem">
+            <summary>
+            Summary description for UserDataItem.
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataItem._name">
+            <summary>
+            internal string, holds the name of the userDataItem
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataItem._default">
+            <summary>
+            internal string, holds the default value to use if no data is supplied
+            for the userItem
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataItem._mandatory">
+            <summary>
+            internal bool, used to indicate if the userdataitem is mandatory. mandatory objects
+            must supply a value in the data or a default value
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataItem.#ctor">
+            <summary>
+            default constructor
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataItem.#ctor(System.String,System.String,System.Boolean)">
+            <summary>
+            constructor to init the all the standard attributes that a userDataItem will
+            have
+            </summary>
+            <param name="name">string name of the userDataItem</param>
+            <param name="defaultValue">string the default value to use if no data supplied</param>
+            <param name="mandatory">bool is the userdataitem is mandatory</param>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataItem.Name">
+            <summary>
+            Property Name, get/set the name of the userdata item
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataItem.DefaultValue">
+            <summary>
+            Property DefaultValue, get/set the default value to use if no
+            data is supplied
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataItem.Mandatory">
+            <summary>
+            Property Mandatory, get/set indicates if the userDataitem is mandatory
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataDictionary._IDictionary">
+            <summary>
+            holds the IDictionary, containing the data we are
+            going to iterator over
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataDictionary._itemStart">
+            <summary>
+            holds the ItemStart string
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataDictionary._itemEnd">
+            <summary>
+            holds the ItemEnd string
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataDictionary._itemSeparator">
+            <summary>
+            holds the ItemSeparator string
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataDictionary._rowSeparator">
+            <summary>
+            holda the RowSeparator string
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataDictionary.#ctor">
+            <summary>
+            Default constructor used to create a UserDataDictionary object
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataDictionary.#ctor(System.String,System.Boolean)">
+            <summary>
+            Constructor used to create a UserDataDictionary object
+            </summary>
+            <param name="name">Name of the user data item</param>
+            <param name="mandatory">Mandatory, boolean indicating if the item is mandatory in the data Hashtable</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataDictionary.#ctor(System.String,System.Boolean,System.Collections.IDictionary,System.String,System.String,System.String,System.String)">
+            <summary>
+            Constructor used to create a UserDataDictionary object
+            </summary>
+            <param name="name">Name of the user data item</param>
+            <param name="mandatory">Mandatory, boolean indicating if the item is mandatory in the data Hashtable</param>
+            <param name="dictionary"></param>
+            <param name="itemStart">String value to output before the first item </param>
+            <param name="itemEnd">String value to outputted after the last item is outpetted</param>
+            <param name="itemSeparator">String value outputted between each kay value pair</param>
+            <param name="rowSeparator">String value outputted after each value, but not the last item in 
+            the IDictionar list</param>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataDictionary.ItemStart">
+            <summary>
+            get/set the ItemStart string which is outputted before we are
+            iterating
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataDictionary.ItemSeparator">
+            <summary>
+            get/set the item separator, this string is output between a key
+            and a value
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataDictionary.ItemEnd">
+            <summary>
+            get/set ItemEnd, outputed after we have completed the iteration
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataDictionary.RowSeparator">
+            <summary>
+            get/set string RowSeparator, this value is outputed after each iteration.
+            
+            note the final iteration does not have this value after it, but will have the 
+            ItemEnd value
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataDictionary.Dictionary">
+            <summary>
+            get/set the IDictionaryEnumerator, this contains the key/value data
+            that we are going to iterator over
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.Entities.UserDataList">
+            <summary>
+            class used to hold wrap the IEnumerable object that
+            we are using for userDataList elements
+            
+            Here we store the object and the itemStart, itemEnd and itemSeparator 
+            values. During the merging of the data we can test for this object and
+            output as required
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataList._IEnumerable">
+            <summary>
+            IEnumerable value cotaining the data we are going to
+            iterator over
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataList._itemStart">
+            <summary>
+            Item Start value, contains the string outputted at the start of the
+            iteration
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataList._itemSeparator">
+            <summary>
+            Item Separator, contains the string used to separate the values
+            when looping thro' the iterator
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.Entities.UserDataList._itemEnd">
+            <summary>
+            Item End, contains the string outputed after the last item
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataList.#ctor">
+            <summary>
+            Default Constructor
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataList.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates a userDatalist object
+            </summary>
+            <param name="name">string name of the userDataList</param>
+            <param name="mandatory">bool mandatory id the userDataList is mandatory</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.Entities.UserDataList.#ctor(System.String,System.Boolean,System.Collections.IEnumerable,System.String,System.String,System.String)">
+            <summary>
+            Creates a userDataList object
+            </summary>
+            <param name="name"></param>
+            <param name="mandatory"></param>
+            <param name="IEnumberable"></param>
+            <param name="itemStart"></param>
+            <param name="itemSeparator"></param>
+            <param name="itemEnd"></param>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataList.ItemStart">
+            <summary>
+            Property used to get/set the ItemStart value
+            
+            This is the string that will be prefixed to the start of the enumerator output. 
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataList.ItemSeparator">
+            <summary>
+            Property used to get/set the ItemSeparator value
+            
+            This is the string that is inserted between each value when
+            we output the enumerator.
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataList.ItemEnd">
+            <summary>
+            Property used to get/set the ItemEnd Value.
+            
+            String value that is output after the final item in the 
+            enumerator
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.Entities.UserDataList.IEnumerable">
+            <summary>
+            Property to get/set the IEnumerable object that holds the values that
+            we are going to use to enumerator over
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.MailFormatType">
+            <summary>
+            enumerator of mail types
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.MailFormatType.PlainText">
+            <summary>
+            Plain Text email format
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.MailFormatType.HtmlText">
+            <summary>
+            Html Text email format
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.MailPriorityType">
+            <summary>
+            Email priority enumerator
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.MailPriorityType.Normal">
+            <summary>
+            Normal
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.MailPriorityType.High">
+            <summary>
+            High
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.MailPriorityType.Low">
+            <summary>
+            Low
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailTemplate">
+            <summary>
+            Models an email message. Based on the template based to constructor
+            
+            Allows template to be modified and loaded with data before using the EmailTemplateProcessor
+            to send the email/emails
+            
+            Able to send the same email message to multiple recipentants.
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate.TEMPLATE_NAMESPACE_URI">
+            <summary>
+            Const the URI namespace of the template elements
+            this is the value we use to mark the emailtemplate elements with
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate.USERVALUE_NAMESPACE_URI">
+            <summary>
+            Const the URI namespace of the userdata elements that are provided in the
+            email template file
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._path">
+            <summary>
+            string to hold the path to the mailtemplate folder
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._fileName">
+            <summary>
+            string, filename of the mailtemplate
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._to">
+            <summary>
+            string array to email adderss
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._cc">
+            <summary>
+            string cc email address
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._bcc">
+            <summary>
+            string bcc email address
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._mailPriority">
+            <summary>
+            enumerator of the mail priority
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._from">
+            <summary>
+            string from email address
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._subject">
+            <summary>
+            string email subject
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._body">
+            <summary>
+            string email body, this will contain the raw XML
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._attachments">
+            <summary>
+            string array of full filenames to attachments, this
+            will contain the raw XML
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._mailFormatType">
+            <summary>
+            enum of mailformatype
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._templateName">
+            <summary>
+            string template name
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._templateDescription">
+            <summary>
+            string template description
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._templateApplication">
+            <summary>
+            string template application value
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._data">
+            <summary>
+            hashtable of internal data
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._bodyOutput">
+            <summary>
+            string containing body element with data bound
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailTemplate._subjectOutput">
+            <summary>
+            string containing subject element with data bound
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.#ctor(System.String,System.String)">
+            <summary>
+            constructor to create an Email Template
+            </summary>
+            <param name="path">path to the folder containing the template files</param>
+            <param name="fileName">filename of template to use</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.#ctor(System.String)">
+            <summary>
+            constructor to create an Email Template
+            </summary>
+            <param name="fullyQuailifiedFileName">fully quailified path to the template to use</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.ReadFileVersion1_1(System.Xml.XmlReader,System.Collections.ArrayList)">
+            <summary>
+            Method to read data stored in a 1.0 or 1.1 version email template
+            file and load the data into properties in this object
+            </summary>
+            <param name="xmlReader">Opened XmlReader of the email template to load</param>
+            <param name="attachments">Arraylist used to as temp store attachments</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.ReadFileVerson1_2(System.Xml.XmlReader,System.Collections.ArrayList)">
+            <summary>
+            Method to read data stored in a 1.2 version email template
+            file and load the data into properties in this object
+            </summary>
+            <param name="xmlReader">Opened XmlReader of the email template to load</param>
+            <param name="attachments">Arraylist used to as temp store attachments</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.ReadTemplateFileVersion(System.String)">
+            <summary>
+            Reads the version number of the email template. This will allow us to 
+            load files that are from an older version of the application
+            </summary>
+            <param name="fullFilePath">full path and filename of the email template</param>
+            <returns>Version number of the application that the email template was created for</returns>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.FormatWhitespace(System.String)">
+            <summary>
+            Method to format whitespace characters such as \t \r and \n
+            these can be in the email template and we need to replace them
+            with the correct ascii values
+            </summary>
+            <param name="input">String value we are going to check for whitespace escape characters</param>
+            <returns>String with whitespace formatting as defined by the markup</returns>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.PreviewBody">
+            <summary>
+            method to return the body of the email with the data 
+            added
+            </summary>
+            <returns>string contain a Preview of how the body of the email will look</returns>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.PreviewSubjectLine">
+            <summary>
+            method to return the subject line with the data added
+            </summary>
+            <returns>string containing the Preview of the subject line</returns>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.LoadData(System.Collections.Hashtable)">
+            <summary>
+            Loads a hashtable into the email template. The key from the hashtable will be used to
+            map to any matching userData elements with a matching name. 
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.LoadSubjectData">
+            <summary>
+            Load the subject line with any userdata values
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.LoadBodyData">
+            <summary>
+            Load the body with any userdata values
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.ParseElement(System.String)">
+            <summary>
+            Parse the element and load a ArrayList with the data for the user defined data
+            element
+            </summary>
+            <param name="element">String element we are going to parse</param>
+            <returns></returns>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplate.MergeData(System.Collections.Hashtable,EmailTemplateProcessor.EmailTemplate.ElementType)">
+            <summary>
+            Merge the element with the userData field
+            </summary>
+            <param name="data">Hashtable of data that we are going to replace the userData elements with</param>
+            <param name="type">ElementType of the element we are working on</param>
+            <returns>string of the element with the userData loaded into the string</returns>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.To">
+            <summary>
+            get/set the string array of To addresses
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.From">
+            <summary>
+            get/set the From email address, string
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Subject">
+            <summary>
+            get/set the Email Subject, string
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Body">
+            <summary>
+            get/set the Email Body
+            
+            this will contain any userData elements that are contained in the email template
+            this propery will never have the data values in the email
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Attachments">
+            <summary>
+            get/set string array of attachments
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.MailFormat">
+            <summary>
+            get/set MailFormat, see the enum MailFormatType
+            value can be HTML or plain text
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.TemplateName">
+            <summary>
+            get read-only template name as stored in the template file
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.TemplateDescription">
+            <summary>
+            get read-only template description as stored in the template file
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Application">
+            <summary>
+            get read-only application attribute value as stored in the template file
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.FileName">
+            <summary>
+            get read-only fileName of template
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Path">
+            <summary>
+            get read-only path to template directory
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Cc">
+            <summary>
+            get/set CC email address
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.Bcc">
+            <summary>
+            get/set BCC email address
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailTemplate.MailPriority">
+            <summary>
+            get/set the Mail Priority
+            
+            if no value is given in the template then the 
+            default value is "Normal"
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailTemplate.ElementType">
+            <summary>
+            Enum used to define which of the field
+            we are using 
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailTemplate.UserDataType">
+            <summary>
+            enum used to define the userData element type
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailTemplateEventArgs">
+            <summary>
+            EmailTemplateEventArgs event args class used by the EmailTemplate
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplateEventArgs.#ctor">
+            <summary>
+            Constructor
+            </summary>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailTemplateException">
+            <summary>
+            Exception class that the EmailTemplate uses when an error occurs
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplateException.#ctor">
+            <summary>
+            Constructor, takes no parameters
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplateException.#ctor(System.String)">
+            <summary>
+            Constructor, takes a string message
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailTemplateException.#ctor(System.String,System.Exception)">
+            <summary>
+            Constructor, takes a string message and exception
+            </summary>
+            <param name="message"></param>
+            <param name="innerException"></param>
+        </member>
+        <member name="T:EmailTemplateProcessor.EmailProcessor">
+            <summary>
+            EmailTemplateProcessor used to send an EmailTemplate object via SMTP
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailProcessor._stmpServerName">
+            <summary>
+            string holds the name of the SMTP server
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailProcessor._debugMode">
+            <summary>
+            falg indicating if we are in debug mode
+            </summary>
+        </member>
+        <member name="F:EmailTemplateProcessor.EmailProcessor._debugEmailAddress">
+            <summary>
+            string holding the email address that we use in debug mode
+            </summary>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailProcessor.#ctor(System.String)">
+            <summary>
+            construtor used to create a EmailProcessor object
+            
+            </summary>
+            <param name="SmtpServerName">name of SMTP server to use to send emails</param>
+        </member>
+        <member name="M:EmailTemplateProcessor.EmailProcessor.SendEmail(EmailTemplateProcessor.EmailTemplate)">
+            <summary>
+            Sends an Email Template
+            </summary>
+            <param name="message"></param>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailProcessor.DebugMode">
+            <summary>
+            allow debuging of email messages
+            
+            When DebugMode is true, all emails generated will go To the email 
+            address supplied in DebugEmail property.
+            </summary>
+        </member>
+        <member name="P:EmailTemplateProcessor.EmailProcessor.DebugEmail">
+            <summary>
+            Get/Set the DebugEmail address, this is the email address where
+            emails will be sent when we are in DebugMode
+            </summary>
+        </member>
+    </members>
+</doc>

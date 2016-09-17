@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- used to test the subject line userData value 
+
+test 1. supply no data for the mandatory subject line data - throw Exception
+test 2. supply data for the mandatory subject line
+-->
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+  <to>emailtemplate@mailinator.com</to>
+  <from>emailtemplate@mailinator.com</from>
+	<subject>TestEmail <userData mandatory="true" name="SubjectData1"/></subject>
+	<body>Sample email from email template processor
+	<userData mandatory="false" default="Mark" name="UserData1"/>
+	End Message
+	</body>
+	<attachments>
+	</attachments>
+</message>
+</emailTemplate>

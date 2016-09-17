@@ -1,0 +1,434 @@
+Version 1.0   www.bitethebullet.co.uk  
+ 
+ 
+Email Template Framework 
+ 
+ 
+Document Version 1.0 
+Software Version 1.2 
+ 
+ 
+© BiteTheBullet 
+Version 1.0   www.bitethebullet.co.uk  
+Document Revision History 
+Version Date Notes 
+1.0 01/11/2005 Initial release 
+ 
+ 
+Software Release History 
+Version Date Notes 
+1.0 1/6/2005 Initial release 
+1.1 11/7/2005 Subject line can now contain user data items 
+1.2 18/10/2005 Can now send HTML format emails, introduction of 
+namespaces with the template. 
+ 
+Version 1.0   www.bitethebullet.co.uk  
+Overview 
+ASP.NET provides an excellent way to separate content from code, however when 
+trying to send an email via ASP.NET there is no clean separation of the email 
+message to send and the code that sends it. 
+Email Templates attempts to address this issue, the email message is composed as an 
+XML document which is then processed by the engine and send to the recipient(s). 
+ 
+The framework provides a mechanism where parts of the email can be merged with 
+data at run time, in effect providing a mail merge function. The merging of data can 
+be simple name value pair, IEnumerable or IDictionary objects. 
+ 
+The email message itself can be either plain text or HTML format. 
+ 
+Template Files 
+The email message is composed in a XML, this file contains the email message as 
+well as metadata need to send the email such as to address, from address, priority etc. 
+Also in the template are optional user data elements which are used to merge data into 
+the template at runtime. 
+ 
+A simple email template file is shown below using HTML formatting. This template 
+doesn?t contain any user data elements. 
+ 
+<?xml version="1.0" encoding="utf-8" ?> 
+<template:emailTemplate application="TestApplication" version="1.2" 
+xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData" 
+ xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Templ
+ate"> 
+<template:name>Simple HTML Template</template:name> 
+<template:description>Template used to test 
+HTML</template:description> 
+<template:mailFormat>HtmlText</template:mailFormat> 
+<template:message> 
+ <template:to>user@dummy.com</template:to> 
+ <template:from>admin@dummy.com</template:from> 
+ <template:subject>TestEmail</template:subject> 
+ <template:body><b>Sample email</b> from email template 
+processor<br/><br/> 
+ template:body> 
+ <template:attachments> 
+ </template:attachments> 
+</template:message> 
+</template:emailTemplate> 
+ 
+This template is used to send a very simple HTML email message, an important point 
+to note at this stage is that the email to address can be override and set at runtime with 
+any number of receipts.  
+ 
+<template:emailTemplate> 
+This is the root element in the XML, here we store an important attribute as well as 
+defining the two namespaces we need. 
+ 
+Version 1.0   www.bitethebullet.co.uk  
+Attribute Name Notes 
+application   User defined value, here you can enter 
+the name of the application that uses 
+the framework. This value is optional 
+and used only for your own reference 
+value This defines the version of the email 
+template, we use this to maintain 
+backwards compatibility with older 
+templates. This value is mandatory 
+and should be set to 1.2 
+ 
+ 
+<template:name> 
+Optional value used to name the template, not used by the framework just included to 
+make managing the templates easier for the developer. 
+ 
+<template:description> 
+Optional value used to describe the template and its purpose used for, this value is not 
+used in the framework. 
+ 
+<template:mailFormat> 
+Defines the email format, this value should be either HtmlText or PlainText 
+ 
+<template:message> 
+Element used to nest the details of the email itself. 
+ 
+<template:to> 
+The recipient of the email message. Just leave blank if you intend to set this value at 
+run time, which in most cases is true. 
+ 
+<template:from> 
+Defines the from email address, this will appear of the email that the recipient 
+receives. 
+ 
+<template:subject> 
+Defines the subject of the email message, this element can contain user data items. 
+ 
+<template:body> 
+Defines the body of the email message, this element can contain user data items. 
+ 
+<template:attachments> 
+Defines attachments that the email message will contain. Each attachment will be 
+defined in the nest element <template:attachment> as shown below. 
+ 
+<template:attachements> 
+    <template:attachment>c:\filename.jpg</template:attachment> 
+</template:attachements> 
+ 
+ 
+ 
+Version 1.0   www.bitethebullet.co.uk  
+User Data Items 
+As already stated it is possible to merge data into the subject and body parts of an 
+email at run time using user data items. This is a powerful function since it allows you 
+to create a template which defines the content and at runtime the relevant data is then 
+merged into the email before then sending the email. 
+ 
+During the process of sending the email, a Hashtable is passed to the email template 
+processor which is then merged into the email template. The Hashtable holds the 
+values that the user data items map, the mapping is based on the keys in the Hashtable 
+mapping on to name attribute of the user data item. 
+ 
+? There are two areas where user data item can be used; in the subject and body 
+element of the template.  
+ 
+? The framework has three different types of user data items, <userData>, 
+<userDataList> and <userDataDictionary>. Only <userData> elements can be 
+used in the subject line. The body element however can use all the three user 
+data items. 
+ 
+? All three user data items have the namespace 
+http://www.bitethebullet.co.uk/EmailProcessor/UserData 
+ 
+User Data 
+This is the simplest of the three user data element; this will replace the element with a 
+simple string value. The element is defined as below. 
+ 
+<userData [mandatory="true/false"] name="" [default=""] /> 
+ 
+Only the name attribute is a required field, this is the name of the data item that is 
+stored in the Hashtable. 
+The default attribute value will be used when no data is given in the Hashtable. 
+The mandatory attribute is optional, the value can be either true or false. This 
+indicates if the data item is mandatory. If mandatory is true then the Hashtable must 
+contain a key with the userData name. 
+ 
+A userData element can be added to both a body and subject element 
+ 
+The item in the Hashtable that binds to this element should be a string or another 
+object which has ToString() method. 
+ 
+Version 1.0   www.bitethebullet.co.uk  
+User Data List 
+This user data element will output an IEnumerable object, so if you have an ArrayList 
+of strings for example this will loop through the ArrayList and output each string. 
+ 
+<userDataList [mandatory="true/false"] name=""> 
+<itemStart></itemStart> 
+ <itemEnd></itemEnd>   
+ <itemSeparator></itemSeparator> 
+</userDataList> 
+ 
+The name attribute is used to map the data item in the Hashtable to this element, this 
+attribute is mandatory. 
+The nested elements are used to format the output of the each value outputted. 
+ 
+Element Name Notes 
+itemStart Takes a string value which is 
+outputted before any of the 
+enumerator values 
+itemEnd Takes a string value which is 
+outputted after the last item in the 
+Enumerator 
+itemSeparator Takes a string value which is 
+outputted between each iteration, the 
+last item in the enumerator doesn't 
+have this value outputted after it. 
+ 
+The formatting of the outputted value will appear like the shown below, note however 
+the last item in the list will not have the ItemSeparatorString. 
+ 
+ItemStartDataItemItemSeparatorDataItemItemSeparatorDataItemItemEnd 
+ 
+The item in the Hashtable for this element must support the IEnumerable interface, an 
+exception will be thrown if it doesn't. 
+ 
+A userDataList element can only be used in a body element. 
+ 
+User Data Dictionary 
+This will output an object that supports the IDictionary interface as a key value pair. 
+ 
+<userDataDictionary [mandatory="true/false"] name=""> 
+<itemStart></itemStart> 
+ <itemEnd></itemEnd> 
+ <itemSeparator></itemSeparator> 
+ <rowSeparator></rowSeparator> 
+</userDataDictionary> 
+ 
+The name attribute is mandatory and links the Hashtable data object to the element.  
+The nested elements are used to format the output of the each value outputted. 
+Version 1.0   www.bitethebullet.co.uk  
+Element Name Notes 
+itemStart Takes a string value which is 
+outputted before the IDictionary 
+values 
+itemSeparator Takes a string value which is 
+outputted between each key value 
+pair, so a value of ": " will mean that 
+each item with be "key: value" when 
+outputted 
+rowSeparator Takes a string value which will be 
+outputted after each key value pair, 
+except the final key value pair. This 
+could be a linefeed, forcing each key 
+value on to a new line for example. 
+itemEnd Takes a string value which is 
+outputted after the last item in the 
+IDictionary object 
+ 
+The formatting of the outputted values will appear like below. 
+ 
+ItemStartKeyItemSeparatorValueRowSeparatorKeyItemSeparatorValueRowSe
+paratorItemEnd 
+ 
+The item in the Hashtable for this element must support the IDictionary, an exception 
+will be thrown if the it doesn't. 
+ 
+A userDataDictionary element can only be used in a body element. 
+ 
+ 
+Simple Example 
+ 
+A simple example to demonstrate the email templates would be an email that is sent 
+to a user when they first register with a website for instance. 
+ 
+Firstly we would define a template file that the email is based on, and then define 
+what data values we are going to merge into it at runtime. 
+ 
+?[name] 
+ 
+Thank you for registering with www.dummysite.com, our account details are shown 
+below 
+[account details] 
+ 
+Regards 
+ 
+Site Administrator? 
+ 
+The name value will be user?s name and the account details will be all the account 
+details that the user has registered with. 
+Version 1.0   www.bitethebullet.co.uk  
+The name element will be a simple userDataElement where as the [account details] 
+will be a userDataDictionary item. 
+ 
+So let?s create the email template file that the application will need. I?m going to 
+create this email as plain text email since it?s easier. There is the source of the 
+template file. 
+ 
+<?xml version="1.0" encoding="utf-8" ?> 
+<template:emailTemplate application="example application" 
+version="1.2" 
+xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData" 
+ xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Templ
+ate"> 
+<template:name>User Registered</template:name> 
+<template:description>Email template used as an example, sends a 
+welcome email to new registered users  
+along with there details</template:description> 
+<template:mailFormat>PlainText</template:mailFormat> 
+<template:message> 
+ <template:to></template:to> 
+ <template:from>admin@dummysite.com</template:from> 
+ <template:subject>Welcome to dummySite</template:subject> 
+ <template:body><user:userData name="user_name" mandatory="true" 
+/> 
+  
+Thank you for registering with www.dummysite.com, our account details 
+are shown below 
+<user:userDataDictionary mandatory="true" name="userAccountDetails"> 
+  <user:itemStart></user:itemStart> 
+  <user:itemEnd></user:itemEnd> 
+  <user:itemSeparator>:- </user:itemSeparator> 
+  <user:rowSeparator>/r/n</user:rowSeparator> 
+ </user:userDataDictionary> 
+ 
+Regards 
+ 
+Site Administrator 
+ </template:body> 
+ <template:attachments> 
+ </template:attachments> 
+</template:message> 
+</template:emailTemplate> 
+ 
+ 
+There is one important point to see from the above code, how we format a plain text 
+email, we use \r, \n and \t as escape characters for white space values. These are the 
+only white space escape characters that you can use to format the email message. 
+ 
+To start a new line you should use \r\n, to tab horizontal you should you \t.  If you 
+where creating this email in HTML format that you could use the standard HTML 
+mark-up tags to layout the email as you require. 
+ 
+Normally the data that you would merge with this template would come from a 
+database, however for this example we are simply going to load the data to into a 
+Hashtable manually. 
+ 
+Version 1.0   www.bitethebullet.co.uk  
+The complete C# code listing loading the template with data and the sending of the 
+email is shown below.  
+ 
+using System; 
+using System.Collections; 
+ 
+using EmailTemplateProcessor; 
+ 
+namespace Email_Template_Example 
+{ 
+ /// <summary> 
+ /// Example used to send sample email using email template 
+framework 
+ /// </summary> 
+ class Example 
+ { 
+  /// <summary> 
+  /// The main entry point for the application. 
+  /// </summary> 
+  [STAThread] 
+  static void Main(string[] args) 
+  { 
+   //normally the data would come from a database, 
+here we will load the  
+   //data into the hashtable ourselves 
+   Hashtable data = new Hashtable(); 
+   data.Add("user_name", "John Smith"); 
+ 
+   //create some sample user account data in a 
+hashtable 
+   Hashtable userAccount = new Hashtable(); 
+   userAccount.Add("Username", "smithj"); 
+   userAccount.Add("Password", "secret"); 
+   userAccount.Add("Street", "1 New Town"); 
+   userAccount.Add("City", "London"); 
+   userAccount.Add("Postcode", "L1 3RG"); 
+ 
+   //add the userdetails hashtable to data 
+   data.Add("userAccountDetails", userAccount); 
+ 
+ 
+   //merge the template with the data 
+   EmailTemplate mailTemplate = new 
+EmailTemplate(System.Environment.CurrentDirectory, 
+@"\mailTemplate\simpleListTemplate.xml"); 
+   mailTemplate.LoadData(data); 
+   mailTemplate.To = new string[] {"user@dummy.net"}; 
+//this would come from the database in real world 
+ 
+EmailProcessor processor = new 
+EmailProcessor("localhost"); 
+   processor.SendEmail(mailTemplate); 
+  } 
+ } 
+} 
+ 
+You?ll need to add a reference to the assembly EmailTemplateProcessor.dll to your 
+project, then simply include the namespace EmailTemplateProcessor to have the 
+classes available to project. 
+Version 1.0   www.bitethebullet.co.uk  
+I?ve created this in a console C# application; the source is included in the zip file. To 
+build and execute just use nant with the command nant run in a build shell. You?ll 
+need to modify the template first with an email address where you want the email sent 
+to. 
+ 
+This is what the sample output will look like to the receipt.  
+ 
+ 
+ 
+There is one thing to notice and that is the order of the UserDataDictionary object, the 
+order is not the same as the order we created the items. 
+This is how the IDictionaryEnumerator works, I?ve tried numerous method to try to 
+get the data out in the correct order but all output the same incorrect order. The way 
+around a problem like this is, if the order is important you should use the simple 
+UserData elements which allow you to control the exact ordering. 
+ 
+The UserDataList doesn?t have this problem; items are outputted in a first in first out 
+basis. 
+ 
+Also notice this line in the above source code. 
+ 
+mailTemplate.To = new string[] {"user@dummy.net"}; 
+ 
+The To property takes an array of string email addresses, so we need to pass in a 
+single item array. If we where sending this same message with the same merged data 
+Version 1.0   www.bitethebullet.co.uk  
+to many receipts we could pass in an array of all there email addresses to have the 
+each one sent the email. 
+ 
+The two main classes are EmailTemplate which models an email allows for a given 
+template to be loaded with data. 
+The second class is EmailProcessor which is used to send a EmailTemplate object via 
+SMTP. 
+Further details can be found in EmailTemplate.chm the API documentation. 
+Limitations 
+There are some rough edges to this simple framework, however it does what I need it 
+to do. Here are some bits that need to be looked at. 
+ 
+? At the moment the order of the UserDataDictionary items outputted is not the 
+same as the order the items where created in. 
+ 
+? The EmailProcessor has no method to use authentication when sending an 
+email. This means the SMTP host you use must allow anonymous access. 
+ 
+? HTML format emails needs to be well formed in order for the XML parser to 
+read the template file, so for example line break markup should be entered 
+then <br/> 
+ 
+ 

@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- check that we output the data correctly i.e spacing -->
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+  <to>emailtemplate@mailinator.com</to>
+  <cc>emailtemplate@mailinator.com</cc>
+  <bcc>emailtemplate@mailinator.com</bcc>
+  <from>emailtemplate@mailinator.com</from>
+	<priority>high</priority>
+	<subject>TestEmail</subject>
+	<body>1 2 <userData mandatory="false" default="3" name="UserData1"/> 4 <userData mandatory="false" name="UserData2"/>5 6 7 <userData mandatory="true" name="UserData3"/> 9 <userData mandatory="true" name="UserData4"/></body>
+	<attachments>		
+	</attachments>
+</message>
+</emailTemplate>

@@ -1,0 +1,31 @@
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailTemplateProcessor", "EmailTemplateProcessor\EmailTemplateProcessor.csproj", "{3A8D6668-CFA3-409C-B8A3-9847D61E41A4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailTemplateProcessorUnitTest", "EmailTemplateProcessorUnitTest\EmailTemplateProcessorUnitTest.csproj", "{DBD33917-DFFB-4E19-9194-2448D5E91DFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Email Template Example", "EmailTemplate Example\Email Template Example.csproj", "{CD87977C-B030-41D8-8BCC-9B5F92C5F2E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A8D6668-CFA3-409C-B8A3-9847D61E41A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A8D6668-CFA3-409C-B8A3-9847D61E41A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A8D6668-CFA3-409C-B8A3-9847D61E41A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A8D6668-CFA3-409C-B8A3-9847D61E41A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBD33917-DFFB-4E19-9194-2448D5E91DFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBD33917-DFFB-4E19-9194-2448D5E91DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBD33917-DFFB-4E19-9194-2448D5E91DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBD33917-DFFB-4E19-9194-2448D5E91DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD87977C-B030-41D8-8BCC-9B5F92C5F2E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD87977C-B030-41D8-8BCC-9B5F92C5F2E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD87977C-B030-41D8-8BCC-9B5F92C5F2E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD87977C-B030-41D8-8BCC-9B5F92C5F2E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

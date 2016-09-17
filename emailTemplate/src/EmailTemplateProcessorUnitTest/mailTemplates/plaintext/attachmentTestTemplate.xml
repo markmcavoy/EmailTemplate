@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+	<to>emailtemplate@mailinator.com</to>
+	<from>emailtemplate@mailinator.com</from>
+	<subject>TestEmail</subject>
+	<body>Sample email from email template processor
+	<userData mandatory="false" default="Mark" name="UserData1"/>
+	<userData mandatory="true" name="DataTime"/>
+	End Message
+	</body>
+	<attachments>
+		<!--<attachment>C:\e drive\Source\LIB\c sharp\email template processor\src\EmailTemplateProcessor\mailTemplates\sampleattachment.txt</attachment>-->
+    
+    <!-- find the attachment relative to this template, this should be in the same folder
+    as this attachment-->
+    <attachment>sampleattachment.txt</attachment>
+    
+    <!-- this attachment is in a different folder than this template -->
+    <attachment>..\attachment\dataAttachment.txt</attachment>
+    
+	</attachments>
+</message>
+</emailTemplate>

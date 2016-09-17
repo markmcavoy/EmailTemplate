@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+  <to>emailtemplate@mailinator.com</to>
+  <cc>emailtemplate@mailinator.com</cc>
+  <bcc>emailtemplate@mailinator.com</bcc>
+  <from>emailtemplate@mailinator.com</from>
+	<priority>high</priority>
+	<subject>TestEmail</subject>
+	<body>mark</body>
+	<attachments>		
+	</attachments>
+</message>
+</emailTemplate>

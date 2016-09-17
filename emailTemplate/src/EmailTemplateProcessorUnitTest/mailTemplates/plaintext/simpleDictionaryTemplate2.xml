@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- used to test the subject line userData value 
+
+test 1. test we get the default value if no value supplied
+test 2. test we can load data into the subject line
+-->
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+  <to>emailtemplate@mailinator.com</to>
+  <from>emailtemplate@mailinator.com</from>
+	<subject>TestEmail <userData mandatory="false" default="Mark" name="SubjectData1"/></subject>
+	<body><userData name="UserData1"/><userDataDictionary mandatory="false" itemEnd=" end " itemStart=" start " itemSeparator=", " rowSeparator="" name="UserDataList1"/><userData name="UserData2"/></body>
+	<attachments>
+	</attachments>
+</message>
+</emailTemplate>

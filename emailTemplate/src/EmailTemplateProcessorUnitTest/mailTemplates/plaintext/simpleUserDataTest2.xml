@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- test file use to check mandatory vlaue when no data no default value-->
+<emailTemplate application="TestApplication">
+<name>Simple Template</name>
+<description>Template used to test</description>
+<mailFormat>PlainText</mailFormat>
+<message>
+	<to>emailtemplate@mailinator.com</to>
+	<from>emailtemplate@mailinator.com</from>
+	<subject>TestEmail</subject>
+	<body>Sample email from email template processor
+	<userData mandatory="true" name="UserData1"/><!-- item marked mandatory but with no default value and no data supplied in unit test-->
+	<userData mandatory="false" name="DataTime"/> 
+	End Message
+	</body>
+	<attachments>
+	</attachments>
+</message>
+</emailTemplate>

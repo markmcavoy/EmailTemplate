@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- file used in test to check exception when userData missing name attribute -->
+<template:emailTemplate application="TestApplication" version="2.0" xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData"
+	xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Template">
+<template:name>Simple Template</template:name>
+<template:description>Template used to test</template:description>
+<template:mailFormat>PlainText</template:mailFormat>
+<template:message>
+	<template:to>emailtemplate@mailinator.com</template:to>
+	<template:from>emailtemplate@mailinator.com</template:from>
+	<template:subject>TestEmail</template:subject>
+	<template:body>Sample email from email template processor
+	<user:userData default="Mark" name="UserData1"/>
+	<user:userData mandatory="true"/> <!-- this is missing a name attribute-->
+	End Message
+	</template:body>
+	<template:attachments>
+	</template:attachments>
+</template:message>
+</template:emailTemplate>

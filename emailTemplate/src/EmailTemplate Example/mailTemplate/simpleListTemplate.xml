@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!-- used to test the subject line userData value 
+
+test 1. test we get the default value if no value supplied
+test 2. test we can load data into the subject line
+-->
+<template:emailTemplate application="example application" version="1.2" xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData"
+	xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Template">
+<template:name>User Registered</template:name>
+<template:description>Email template used as an example, sends a welcome email to new registered users 
+along with there details</template:description>
+<template:mailFormat>PlainText</template:mailFormat>
+<template:message>
+	<template:to></template:to>
+	<template:from>admin@dummysite.com</template:from>
+	<template:subject>Welcome to dummySite</template:subject>
+	<template:body><user:userData name="user_name" mandatory="true" />
+	
+Thank you for registering with www.dummysite.com, our account details are shown below
+<user:userDataDictionary mandatory="true" name="userAccountDetails">
+		<user:itemStart></user:itemStart>
+		<user:itemEnd></user:itemEnd>
+		<user:itemSeparator>:- </user:itemSeparator>
+		<user:rowSeparator>\n</user:rowSeparator>
+	</user:userDataDictionary>
+
+Regards
+
+Site Administrator
+	</template:body>
+	<template:attachments>
+	</template:attachments>
+</template:message>
+</template:emailTemplate>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<template:emailTemplate application="TestApplication" version="2.0" xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData"
+	xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Template">
+<template:name>Simple HTML Template</template:name>
+<template:description>Template used to test HTML</template:description>
+<template:mailFormat>HtmlText</template:mailFormat>
+<template:message>
+	<template:to>emailtemplate@mailinator.com</template:to>
+	<template:from>emailtemplate@mailinator.com</template:from>
+	<template:subject>TestEmail</template:subject>
+	<template:body>
+	<html><body><center>
+<TABLE cellSpacing="0" cellPadding="0" align="center" border="0">
+  <TR>
+    <TD>
+		<a href="http://Wkc5dGNtVm5R.hankodank.com/host/xmasletter/?e=Wkc5dGNtVm5RR052YlcxbGNtTmxiV1ZrYVdFdWJtVjAK&amp;c=T1RFd0xrRmFYM2h0WVhOc1pYUjBaWEpJVGtzdWFHSTJNekE9Cg==&amp;l=VDJOME1EVkhiMjlrCg=="><img src="http://ad.albuminfo.org/images/santa/500x500.gif" alt="SantaMail" width="500" height="500" border="0" align="top"/></a>
+	</TD>
+	</TR>
+ </TABLE>
+<br/><br/><img src="http://i.1100i.com/optouts/493_optout.gif" width="400" height="63" border="0" usemap="#Map"/><map name="Map">
+  <area shape="rect" coords="282,27,358,38" href="http://Wkc5dGNtVm5R.hankodank.com/host/xmasletter/?e=Wkc5dGNtVm5RR052YlcxbGNtTmxiV1ZrYVdFdWJtVjAK&amp;c=T1RFd0xrRmFYM2h0WVhOc1pYUjBaWEpJVGtzdWFHSTJNekE9Cg==&amp;l=VDJOME1EVkhiMjlrCg=="/>
+</map>
+</center><CODE><FONT SIZE="3"><BR/>
+<BR/>
+**********************************************************************<BR/>
+This email and its attachments have been Virus Checked <BR/>
+By MimeSweeper<BR/>
+**********************************************************************<BR/>
+<b><user:userData default="Mark" name="UserData1"/></b><br/>
+</FONT></CODE>
+</body></html>
+	</template:body>
+	<template:attachments>
+	</template:attachments>
+</template:message>
+</template:emailTemplate>
+

@@ -1,0 +1,359 @@
+<project name="Solution Build Example" default="build">
+
+		<!-- This build script is used to create a release output. Debug/development builds should
+		just VS to build.
+		
+		This script will create the folders/files of the release and a zipped version. -->
+	
+
+    
+    <!-- basic settings -->
+    <property name="configuration" value="Release"/>
+    <property name="debug" value="false" />    
+    <!-- controls the version number used to the zip file name -->
+    <property name="version" value="2.5"/>
+    <property name="nant.settings.currentframework" value="net-2.0" />
+    
+    <!-- path to external library -->
+    <property name="lib" value="../lib"/>    
+    
+    <property name="nunit2report.path" value="C:\Program Files (x86)\NUnit2Report V1.2.2 release\bin" />
+    <property name="nunit2report.path.win32" value="C:\Program Files (x86)\NUnit2Report V1.2.2 release\bin" /> 
+    
+    <!-- folder to put the release version to-->
+    <property name="release.output.dir" value="../../release"/>
+    
+    <!-- build output paths.     vars to the folders where binary output should compiled to -->
+    <property name="processor.build.folder" value="${release.output.dir}/src_2_0/EmailTemplateProcessor/bin/${configuration}" />
+    <property name="unitTest.build.folder" value="${release.output.dir}/src_2_0/EmailTemplateProcessorUnitTest/bin/${configuration}" />
+    <property name="exampleApp.build.folder" value="${release.output.dir}/src_2_0/EmailTemplate Example/bin/${configuration}" />
+    
+    
+    <!-- MAIN TARGETS TO CALL -->
+    
+    
+    <!-- main targets for the build process doesnt run ndoc or zip -->
+    <target name="build" description="Build all targets." depends="build.notests, runTests" />
+    
+    
+    <!-- creates source and binary output, doesnt run tests, ndoc or zip -->
+    <target name="build.notests" description="Build all targets, without running tests" 
+										depends="clean.release, copy.source, build.emailTemplates, copyRequiredFiles" />
+  
+    
+    <!-- Builds a release which creates the doc and zip already to distribute -->
+    <target name="release" depends="build, ndoc, zip.release" />
+    
+    <!-- END MAIN TARGETS TO CALL -->
+    
+    
+    
+    <!-- Delete the current release output files and folders  -->
+     <target name="clean.release" description="Delete all previously release files.">
+        <delete dir="${release.output.dir}" failonerror="false"/>
+    </target>
+    
+    
+    <target name="copy.source" description="copy all the source files to the release folder">
+			<!-- create the release folder structure -->
+			<mkdir dir="${release.output.dir}"/>
+			<mkdir dir="${release.output.dir}/docs"/>
+			<mkdir dir="${release.output.dir}/compiled"/>
+			<mkdir dir="${release.output.dir}/src_2_0"/>
+			<mkdir dir="${release.output.dir}/lib"/>
+			
+			<!-- copy source -->
+			<copy todir="${release.output.dir}/src_2_0">
+				<fileset>
+					<include name="*.sln"/>
+					<include name="*.bat"/>
+					<include name="*.build"/>
+				</fileset>
+			</copy>			
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplate Example">
+				<fileset basedir="EmailTemplate Example">
+					<include name="**.cs"/>
+					<include name="**.csproj"/>
+					<include name="**.ico"/>
+					<include name="*.config" />
+					<include name="mailTemplate/*.xml"/>
+				</fileset>
+			</copy>			
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplateProcessor">
+				<fileset basedir="EmailTemplateProcessor">
+					<exclude name="bin/**.*"/>
+					<include name="**.cs"/>
+					<include name="**.csproj"/>
+					<include name="**.xml"/>
+					<include name="*.config"/>
+				</fileset>
+			</copy>			
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplateProcessorUnitTest">
+				<fileset basedir="EmailTemplateProcessorUnitTest">
+					<exclude name="bin/**.*"/>
+					<include name="**.cs"/>
+					<include name="**.csproj"/>
+					<include name="**.xml"/>
+					<include name="**.txt"/>
+				</fileset>
+			</copy>
+			<copy todir="${release.output.dir}/docs">
+				<fileset basedir="../../doc">
+					<include name="*.pdf"/>
+				</fileset>
+			</copy>
+			<copy todir="${release.output.dir}/lib">
+				<fileset basedir="${lib}">
+					<include name="*.dll"/>
+				</fileset>
+			</copy>
+			 
+    </target>
+    
+    
+    <target name="copyRequiredFiles" depends="copyLog4NetConfig, copyMailTemplates, copyExternalDependencies" />
+    
+    
+    <target name="copyLog4NetConfig">    
+			<!-- copy to emailtemplateprocessor bin directory -->
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplateProcessor/bin/${configuration}" flatten="true">
+				<fileset>
+					<include name="EmailTemplateProcessor/log4net.config"/>
+				</fileset>
+			</copy>			
+			<!-- copy to emailtemplateprocessorUnitTests bin directory -->
+			<copy todir="${unitTest.build.folder}" flatten="true">
+				<fileset>
+					<include name="EmailTemplateProcessor/log4net.config"/>
+				</fileset>
+			</copy>				
+			<!-- copy the app.config file to example app into the release folder -->
+			<copy tofile="${exampleApp.build.folder}/Email Template Example.exe.config"
+							file="${release.output.dir}/src_2_0/EmailTemplate Example/app.config">
+			</copy>				
+    </target>
+    
+    
+    <target name="copyMailTemplates">		
+			
+			<copy todir="${unitTest.build.folder}">
+				<fileset basedir="${release.output.dir}/src_2_0/EmailTemplateProcessorUnitTest">
+					<include name="mailTemplates/**.xml"/>
+					<include name="mailTemplates/**.txt"/>
+				</fileset>
+			</copy>
+			
+			<!-- copy the example mail template into the outputfolder of the example app -->
+			<copy  todir="${exampleApp.build.folder}">
+				<fileset basedir="${release.output.dir}/src_2_0/EmailTemplate Example">
+					<include name="mailTemplate/*.xml"/>
+				</fileset>
+			</copy>  	
+			
+    </target>
+    
+    
+    <target name="copyExternalDependencies">
+			<!-- copy 3rd party dlls to the output folders -->
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplateProcessor/bin/${configuration}" flatten="true">
+				<fileset>
+					<include name="${lib}/log4net.dll"/>
+				</fileset>
+			</copy>  
+			
+			<copy todir="${unitTest.build.folder}" flatten="true">
+				<fileset>
+					<include name="${lib}/*.dll"/>
+				</fileset>
+			</copy>   
+			
+			<!-- Example only needs the log4net 3rd dll to run-->
+			<copy todir="${release.output.dir}/src_2_0/EmailTemplate Example/bin/${configuration}" flatten="true">
+				<fileset>
+					<include name="${lib}/log4net.dll"/>
+				</fileset>
+			</copy>   
+    </target>
+    
+    
+    
+    
+    
+    <target name="runTests">
+			<!-- <sysinfo/> -->
+			<nunit2>
+				<formatter type="Xml" usefile="true" extension=".xml" 
+				outputdir="${unitTest.build.folder}/results" />
+				<test assemblyname="${unitTest.build.folder}/EmailTemplateProcessorUnitTest.dll" 
+				haltonfailure="false"/>
+			</nunit2>
+		
+			<echo message="applying style"/>
+			
+			
+			<if test="${directory::exists(nunit2report.path)}">
+			
+							<style style="${nunit2report.path}/NUnit-NoFrame.xsl" 
+									in="${unitTest.build.folder}/results/EmailTemplateProcessorUnitTest.dll-results.xml" 
+									out="${unitTest.build.folder}/TestResults.html">
+							</style>
+			
+			</if>
+			<if test="${directory::exists(nunit2report.path.win32)}">
+			
+							<style style="${nunit2report.path.win32}/NUnit-NoFrame.xsl" 
+									in="${unitTest.build.folder}/results/EmailTemplateProcessorUnitTest.dll-results.xml" 
+									out="${unitTest.build.folder}/TestResults.html">
+							</style>
+			
+			</if>
+			
+
+      <echo message="deleting xml report" />
+      <delete dir="${unitTest.build.folder}/results/" />        
+    </target>
+
+    
+    <target name="zip.release">					
+			<zip zipfile="${release.output.dir}/release${version}.zip">
+				<fileset basedir="${release.output.dir}">
+					<include name="**/*"/>
+				</fileset>			
+			</zip>
+    </target>
+    
+    
+    <!-- creates the chm helpfile 
+    
+    TODO: need to fix up this target
+    -->
+    <target name="ndoc">
+		<ndoc > 
+			<assemblies basedir="${processor.build.folder}"> 
+				<include name="EmailTemplateProcessor.dll" /> 
+			</assemblies> 
+			<summaries basedir="${processor.build.folder}">
+				<include name="EmailTemplateProcessor.xml" /> 
+			</summaries> 
+			<documenters> 
+			<documenter name="MSDN"> 
+			<property name="OutputDirectory" value="${release.output.dir}/docs/chm" /> 
+			<property name="HtmlHelpName" value="EmailTemplate" /> 
+			<property name="HtmlHelpCompilerFilename" value="hhc.exe" /> 
+			<property name="IncludeFavorites" value="False" /> 
+			<property name="Title" value="EmailTemplate Class Library" /> 
+			<property name="SplitTOCs" value="False" /> 
+			<property name="DefaulTOC" value="" /> 
+			<property name="ShowVisualBasic" value="True" /> 
+			<property name="ShowMissingSummaries" value="false" /> 
+			<property name="ShowMissingRemarks" value="false" /> 
+			<property name="ShowMissingParams" value="True" /> 
+			<property name="ShowMissingReturns" value="True" /> 
+			<property name="ShowMissingValues" value="True" /> 
+			<property name="DocumentInternals" value="False" /> 
+			<property name="DocumentProtected" value="True" /> 
+			<property name="DocumentPrivates" value="False" /> 
+			<property name="DocumentEmptyNamespaces" value="False" /> 
+			<property name="IncludeAssemblyVersion" value="False" /> 
+			<property name="CopyrightText" value="www.BiteTheBullet.co.uk" /> 
+			<property name="CopyrightHref" value="http://www.bitethebullet.co.uk" /> 
+			</documenter> 
+			</documenters> 
+			</ndoc> 
+			
+			<!-- copy the chm to the root of the docs
+			folder, and remove the working chm folder -->
+			<copy todir="${release.output.dir}/docs" >
+			<fileset>
+				<include name="${release.output.dir}/docs/chm/*.chm"/>
+			</fileset>
+			</copy>
+			
+			<delete dir="${release.output.dir}/docs/chm"/>
+			
+    </target>
+
+		<!-- compile the 3 projects into assemblies-->
+    <target name="build.emailTemplates">
+       
+
+       
+       <!-- check we have the build folders -->
+       <mkdir dir="${processor.build.folder}" />
+       <mkdir dir="${unitTest.build.folder}" />
+       <mkdir dir="${exampleApp.build.folder}" />
+       
+        <!-- build the email template processor -->
+        <csc target="library" output="${processor.build.folder}/EmailTemplateProcessor.dll" 
+								doc="${processor.build.folder}/EmailTemplateProcessor.xml" debug="${debug}">
+					<sources>
+						<include name="${release.output.dir}/src_2_0/EmailTemplateProcessor/**.cs"/>
+					</sources>
+					<references>
+						<include name="System.dll" />
+						<include name="System.Data.dll" />
+						<include name="System.Web.dll" />
+						<include name="System.Xml.dll" />
+						<include name="${lib}/log4net.dll" />
+					</references>
+        </csc>
+        
+        
+        <!-- build unit tests -->
+        <csc target="library" output="${unitTest.build.folder}/EmailTemplateProcessorUnitTest.dll" debug="${debug}">
+					<sources>
+						<include name="${release.output.dir}/src_2_0/EmailTemplateProcessorUnitTest/**.cs"/>
+					</sources>
+					<references>
+						<include name="System.dll" />
+						<include name="System.Data.dll" />
+						<include name="System.Xml.dll" />
+						<include name="${lib}/nunit.framework.dll" />
+						<include name="${processor.build.folder}/EmailTemplateProcessor.dll" />
+					</references>
+        </csc>
+        
+        
+        <!-- build example app tests -->
+        <csc target="exe" output="${exampleApp.build.folder}/Email Template Example.exe" debug="${debug}">
+					<sources>
+						<include name="${release.output.dir}/src_2_0/EmailTemplate Example/**.cs"/>
+					</sources>
+					<references>
+						<include name="System.dll" />
+						<include name="System.Data.dll" />
+						<include name="System.Xml.dll" />
+						<include name="${lib}/log4net.dll" />
+						<include name="${processor.build.folder}/EmailTemplateProcessor.dll" />
+					</references>
+        </csc>
+        
+        <!-- copy the email processor into the unit test output folder -->
+        <copy todir="${unitTest.build.folder}">
+					<fileset basedir="${processor.build.folder}">
+						<include name="EmailTemplateProcessor.dll" />
+					</fileset>
+        </copy>
+
+        
+        <!-- copy the email processor into the example app output folder -->
+        <copy todir="${exampleApp.build.folder}">
+					<fileset basedir="${processor.build.folder}">
+						<include name="EmailTemplateProcessor.dll" />
+					</fileset>
+				</copy>				
+				
+        
+        <!-- copy the email processor into the lib folder since this allows
+        users to simple copy over the dlls into their own projects/applications -->
+        <copy todir="${release.output.dir}/compiled">
+					<fileset basedir="${processor.build.folder}">
+						<include name="EmailTemplateProcessor.dll" />
+					</fileset>
+        </copy>
+        
+        
+    </target>
+    
+    
+</project>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<template:emailTemplate application="TestApplication" version="2.0" xmlns:user="http://www.bitethebullet.co.uk/EmailProcessor/UserData"
+	xmlns:template="http://bitethebullet.co.uk/EmailProcessor/Template">
+<template:name>Simple HTML Template</template:name>
+<template:description>Template used to test HTML</template:description>
+<template:mailFormat>HtmlText</template:mailFormat>
+<template:message>
+	<template:to>emailtemplate@mailinator.com</template:to>
+	<template:from>emailtemplate@mailinator.com</template:from>
+	<template:subject>TestEmail</template:subject>
+	<template:body><b>Sample email</b> from email template processor<br/><br/>
+	<b><user:userData default="Mark" name="UserData1"/></b>
+	<user:userData default="Mark" name="UserData2"/><br/>
+	<user:userDataList mandatory="true" name="UserDataList1">
+		<user:itemStart> start </user:itemStart>
+		<user:itemEnd> end </user:itemEnd>		
+		<user:itemSeparator>, </user:itemSeparator>
+	</user:userDataList>
+	</template:body>
+	<template:attachments>
+	</template:attachments>
+</template:message>
+</template:emailTemplate>
